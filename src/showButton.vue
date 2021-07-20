@@ -1,36 +1,47 @@
 <template>
-  <div id="show-button">
-   <button v-bind:class="{'red':clicked, 'blue':clicked}" v-on:click="clicked = !clicked">{{loading}}</button>
-    </div>
+   <button :style="buttonStyle" style="padding: 4px 12px">
+    <span>
+        click me {{loading ? 'I am loading' : ''}}
+    </span>
+</button>
 </template>
 
 <script>
+
+const sizes = ['small', 'medium', 'large']
+
+const buttonStyles = [
+{ name : 'small' , styles: { height : "40px"}},
+{ name : 'medium' , styles: { height : "80px"}},
+{ name : 'large' , styles: {height : "100px"}},
+
+]
 export default {
-    props: ['loading'],
-    data(){
-        return{
-      clicked: true
-    }
+    props: {
+        loading : {
+            type : Boolean,
+            default : false
+        },
+
+        size : {
+            type : String,
+            default : 'medium'
+        },
     },
-    methods: {
- 
-    }
-    
-}
+
+
+
+    computed : {
+        buttonSize(){
+            let validSize = sizes.some(item => {return item === this.size})
+            return validSize ? this.size : 'small'
+        },
+
+
+        buttonStyle(){
+            let style = buttonStyles.filter( a => { return a.name === this.buttonSize })
+            return style[0].styles
+        }
+    } 
+};
 </script>
-
-<style>
-.red {
-    background-color: red;
-    width: 200px;
-    height: 20px;
-}
-
-.blue {
-    background-color: blue;
-    width: 100px;
-    height: 30px;
-    color: white;
-}
-
-</style>

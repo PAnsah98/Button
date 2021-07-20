@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <show-button :loading="loading">I am awesome</show-button>
+    <show-button :loading="showLoading" size="small" @click.native="doSomething">I am awesome</show-button>
   </div>
 </template>
 
@@ -9,18 +9,29 @@ import showButton from './showButton.vue';
 
 export default {
   components: {
-      'show-button': showButton
+    'show-button': showButton
   },
- 
+
   data () {
     return {
-      loading: "Loading..."
-    
+      loading:  false
+
     }
-  }
-}
+  },
+
+  computed:{
+    showLoading(){
+      return this.loading
+    }
+  },
+
+  methods:{
+   async doSomething(){
+     this.loading = true
+     await setTimeout( () => {
+      this.loading = false
+    }, 1000);
+   }
+ }
+};
 </script>
-
-<style>
-
-</style>
